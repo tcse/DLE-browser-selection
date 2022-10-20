@@ -3,7 +3,7 @@
   <name>browser-selection by TCSE</name>
   <description>Теги для веб-браузеров в шаблонизаторе DLE - Работает только при активации функции: Включить автоматическую поддержку смартфонов. </description>
   <icon>engine/skins/images/browser_selection.png</icon>
-  <version>0.2.153</version>
+  <version>0.2.153.2</version>
   <dleversion>15.3</dleversion>
   <versioncompare>greater</versioncompare>
   <upgradeurl></upgradeurl>
@@ -17,7 +17,17 @@
   <notice><![CDATA[
     Плагин добавляет поддержку тегов для различный веб-браузеров основанных на php классе проекта http://mobiledetect.net
 
-Добавлены новые теги:
+Добавлены новые тестовые теги :
+
+[code]
+[firefox] текст [/firefox] - отображает содержимое, если веб-браузер firefox
+[not-firefox] текст [/not-firefox] - отображает содержимое, если веб-браузер не firefox
+
+[opera] текст [/opera] - отображает содержимое, если веб-браузер opera
+[not-opera] текст [/not-opera] - отображает содержимое, если веб-браузер не opera
+[/code]
+
+Стабильные теги :
 
 [code]
 [chrome] текст [/chrome] - отображает содержимое, если веб-браузер Chrome
@@ -43,6 +53,12 @@
     }
     if( $mobile_detect->isSafari() ){
       $this->safari = true;
+    }
+    if( $mobile_detect->isOpera() ){
+      $this->opera = true;
+    }
+    if( $mobile_detect->isFirefox() ){
+      $this->firefox = true;
     }
     ]]></replacecode>
       <enabled>1</enabled>
@@ -98,6 +114,42 @@ if (stripos ( $content, "safari]" ) !== false) {
     $content = str_ireplace( '[not-safari]', "", $content );
     $content = str_ireplace( '[/not-safari]', "", $content );
     $content = preg_replace( "#\[safari\](.+?)\[/safari\]#is", "", $content );
+    
+  }
+  
+}
+// 2022-10-20 теги для opera и firefox
+if (stripos ( $content, "firefox]" ) !== false) {
+  
+  if($this->firefox) {
+    
+    $content = str_ireplace( '[firefox]', "", $content );
+    $content = str_ireplace( '[/firefox]', "", $content );
+    $content = preg_replace( "#\[not-firefox\](.+?)\[/not-firefox\]#is", "", $content );
+    
+  } else {
+    
+    $content = str_ireplace( '[not-firefox]', "", $content );
+    $content = str_ireplace( '[/not-firefox]', "", $content );
+    $content = preg_replace( "#\[firefox\](.+?)\[/firefox\]#is", "", $content );
+    
+  }
+  
+}
+
+if (stripos ( $content, "opera]" ) !== false) {
+  
+  if($this->opera) {
+    
+    $content = str_ireplace( '[opera]', "", $content );
+    $content = str_ireplace( '[/opera]', "", $content );
+    $content = preg_replace( "#\[not-opera\](.+?)\[/not-opera\]#is", "", $content );
+    
+  } else {
+    
+    $content = str_ireplace( '[not-opera]', "", $content );
+    $content = str_ireplace( '[/not-opera]', "", $content );
+    $content = preg_replace( "#\[opera\](.+?)\[/opera\]#is", "", $content );
     
   }
   
