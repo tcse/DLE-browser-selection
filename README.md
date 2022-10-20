@@ -2,32 +2,50 @@
 
 ![Иллюстрация к проекту](https://tcse-cms.com/uploads/posts/2022-10/1666258808_browser-selection_02_20221020121237565.jpg)
 
-Плагин [b]browser-selection by TCSE[/b] это еще один хак для mobiledetect.class.php встроенного в DLE 15. 
-Добавляем поддержку тегов для [b]мобильных веб-браузеров[/b] Chrome, Mobile Safari, Firefox и Opera.
+Плагин **browser-selection by TCSE** это еще один хак для mobiledetect.class.php встроенного в DLE 15. 
+Добавляем поддержку тегов для **мобильных веб-браузеров** Chrome, Mobile Safari, Firefox и Opera.
 В шаблоны вашего сайта достаточно вставить указанные ниже теги, для гибкого вывода необходимой инфорации.
 
-[chrome] текст [/chrome]
+```
+	[chrome] текст [/chrome]
+```
+
 выводят текст заключенных в них, в случае если устройство посетителя сайта использует веб-браузер Chrome
 
-[not-chrome] текст [/not-chrome]
+```
+	[not-chrome] текст [/not-chrome]
+```
+
 выводят текст заключенных в них, в случае если устройство посетителя сайта не использует веб-браузер Chrome
+```
+	[safari] текст [/safari]
+```
 
-[safari] текст [/safari]
 выводят текст заключенных в них, в случае если устройство посетителя сайта использует веб-браузер Mobile Safari
+```
+	[not-safari] текст [/not-safari]
+```
 
-[not-safari] текст [/not-safari]
 выводят текст заключенных в них, в случае если устройство посетителя сайта не использует веб-браузер Mobile Safari
+```
+	[firefox] текст [/firefox]
+```
 
-[firefox] текст [/firefox]
 отображает содержимое, если веб-браузер firefox
+```
+	[not-firefox] текст [/not-firefox]
+```
 
-[not-firefox] текст [/not-firefox]
 отображает содержимое, если веб-браузер не firefox
+```
+	[opera] текст [/opera]
+```
 
-[opera] текст [/opera]
 отображает содержимое, если веб-браузер opera
+```
+	[not-opera] текст [/not-opera]
+```
 
-[not-opera] текст [/not-opera]
 отображает содержимое, если веб-браузер не opera
 
 
