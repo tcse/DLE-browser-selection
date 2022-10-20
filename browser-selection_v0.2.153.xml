@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dleplugin>
+  <name>browser-selection by TCSE</name>
+  <description>Теги для веб-браузеров в шаблонизаторе DLE - Работает только при активации функции: Включить автоматическую поддержку смартфонов. </description>
+  <icon>engine/skins/images/browser_selection.png</icon>
+  <version>0.2.153</version>
+  <dleversion>15.3</dleversion>
+  <versioncompare>greater</versioncompare>
+  <upgradeurl></upgradeurl>
+  <filedelete>0</filedelete>
+  <mnotice>1</mnotice>
+  <mysqlinstall><![CDATA[]]></mysqlinstall>
+  <mysqlupgrade><![CDATA[]]></mysqlupgrade>
+  <mysqlenable><![CDATA[]]></mysqlenable>
+  <mysqldisable><![CDATA[]]></mysqldisable>
+  <mysqldelete><![CDATA[]]></mysqldelete>
+  <notice><![CDATA[
+    Плагин добавляет поддержку тегов для различный веб-браузеров основанных на php классе проекта http://mobiledetect.net
+
+Добавлены новые теги:
+
+[code]
+[chrome] текст [/chrome] - отображает содержимое, если веб-браузер Chrome
+[not-chrome] текст [/not-chrome] - отображает содержимое, если веб-браузер не Chrome
+
+[safari] текст [/safari] - отображает содержимое, если веб-браузер Mobile Safari
+[not-safari] текст [/not-safari] - отображает содержимое, если веб-браузер не Mobile Safari
+[/code]
+
+Официальная страница плагина [url]https://tcse-cms.com/works/1438-browser-selection-by-tcse.html[/url] 
+
+]]></notice>
+
+  <file name="engine/classes/templates.class.php">
+    <operation action="after">
+      <searchcode><![CDATA[if( $mobile_detect->isAndroidOS() ){
+      $this->android = true;
+    }]]></searchcode>
+      <replacecode><![CDATA[
+      // Описываем новые теги браузеров
+    if( $mobile_detect->isChrome() ){
+      $this->chrome = true;
+    }
+    if( $mobile_detect->isSafari() ){
+      $this->safari = true;
+    }
+    ]]></replacecode>
+      <enabled>1</enabled>
+    </operation>
+    <operation action="after">
+      <searchcode><![CDATA[if (stripos ( $content, "android]" ) !== false) {
+      
+      if($this->android) {
+        
+        $content = str_ireplace( '[android]', "", $content );
+        $content = str_ireplace( '[/android]', "", $content );
+        $content = preg_replace( "#\[not-android\](.+?)\[/not-android\]#is", "", $content );
+        
+      } else {
+        
+        $content = str_ireplace( '[not-android]', "", $content );
+        $content = str_ireplace( '[/not-android]', "", $content );
+        $content = preg_replace( "#\[android\](.+?)\[/android\]#is", "", $content );
+        
+      }
+      
+    }]]></searchcode>
+      <replacecode><![CDATA[
+// Описываем новые теги браузеров
+if (stripos ( $content, "chrome]" ) !== false) {
+  
+  if($this->chrome) {
+    
+    $content = str_ireplace( '[chrome]', "", $content );
+    $content = str_ireplace( '[/chrome]', "", $content );
+    $content = preg_replace( "#\[not-chrome\](.+?)\[/not-chrome\]#is", "", $content );
+    
+  } else {
+    
+    $content = str_ireplace( '[not-chrome]', "", $content );
+    $content = str_ireplace( '[/not-chrome]', "", $content );
+    $content = preg_replace( "#\[chrome\](.+?)\[/chrome\]#is", "", $content );
+    
+  }
+  
+}
+
+if (stripos ( $content, "safari]" ) !== false) {
+  
+  if($this->safari) {
+    
+    $content = str_ireplace( '[safari]', "", $content );
+    $content = str_ireplace( '[/safari]', "", $content );
+    $content = preg_replace( "#\[not-safari\](.+?)\[/not-safari\]#is", "", $content );
+    
+  } else {
+    
+    $content = str_ireplace( '[not-safari]', "", $content );
+    $content = str_ireplace( '[/not-safari]', "", $content );
+    $content = preg_replace( "#\[safari\](.+?)\[/safari\]#is", "", $content );
+    
+  }
+  
+}
+    ]]></replacecode>
+      <enabled>1</enabled>
+    </operation>
+  </file>
+</dleplugin>
