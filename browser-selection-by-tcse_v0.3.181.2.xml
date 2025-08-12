@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dleplugin>
+	<name>browser-selection by TCSE</name>
+	<description>Теги для веб-браузеров в шаблонизаторе DLE - Работает только при активации функции: Включить автоматическую поддержку смартфонов.</description>
+	<icon>engine/skins/images/browser_selection.png</icon>
+	<version>0.3.181.2</version>
+	<dleversion>15.3</dleversion>
+	<versioncompare>greater</versioncompare>
+	<upgradeurl></upgradeurl>
+	<filedelete>0</filedelete>
+	<needplugin></needplugin>
+	<mnotice>1</mnotice>
+	<mysqlinstall><![CDATA[]]></mysqlinstall>
+	<mysqlupgrade><![CDATA[]]></mysqlupgrade>
+	<mysqlenable><![CDATA[]]></mysqlenable>
+	<mysqldisable><![CDATA[]]></mysqldisable>
+	<mysqldelete><![CDATA[]]></mysqldelete>
+	<phpinstall><![CDATA[]]></phpinstall>
+	<phpupgrade><![CDATA[]]></phpupgrade>
+	<phpenable><![CDATA[]]></phpenable>
+	<phpdisable><![CDATA[]]></phpdisable>
+	<phpdelete><![CDATA[]]></phpdelete>
+	<notice><![CDATA[Плагин добавляет поддержку тегов для различный веб-браузеров основанных на php классе проекта http://mobiledetect.net
+
+Добавлены новые теги 2025-08-12 :
+[yandex-bro]  текст [/yandex-bro]
+
+[not-yandex-bro] текст [/not-yandex-bro]
+
+[telegram-bot] текст [/telegram-bot]
+
+[not-telegram-bot] текст [/not-telegram-bot]
+
+
+[firefox] текст [/firefox] - отображает содержимое, если веб-браузер firefox
+[not-firefox] текст [/not-firefox] - отображает содержимое, если веб-браузер не firefox
+
+[opera] текст [/opera] - отображает содержимое, если веб-браузер opera
+[not-opera] текст [/not-opera] - отображает содержимое, если веб-браузер не opera
+
+[chrome] текст [/chrome] - отображает содержимое, если веб-браузер Chrome
+[not-chrome] текст [/not-chrome] - отображает содержимое, если веб-браузер не Chrome
+
+[safari] текст [/safari] - отображает содержимое, если веб-браузер Mobile Safari
+[not-safari] текст [/not-safari] - отображает содержимое, если веб-браузер не Mobile Safari
+
+
+Официальная страница плагина https://tcse-cms.com/works/1438-browser-selection-by-tcse.html]]></notice>
+	<file name="engine/classes/templates.class.php">
+		<operation action="after">
+			<searchcode><![CDATA[if( $mobile_detect->isAndroidOS() ){
+      $this->android = true;
+    }]]></searchcode>
+			<replacecode><![CDATA[
+      // Описываем новые теги браузеров
+    if( $mobile_detect->isChrome() ){
+      $this->chrome = true;
+    }
+    if( $mobile_detect->isSafari() ){
+      $this->safari = true;
+    }
+    if( $mobile_detect->isOpera() ){
+      $this->opera = true;
+    }
+    if( $mobile_detect->isFirefox() ){
+      $this->firefox = true;
+    }
+    ]]></replacecode>
+			<enabled>1</enabled>
+			<dleversion>15</dleversion>
+			<versioncompare>less</versioncompare>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[if ($mobile_detect->isAndroidOS()) {
+					$this->android = true;
+				}]]></searchcode>
+			<replacecode><![CDATA[// Описываем новые теги браузеров
+if( $mobile_detect->isChrome() ){
+      $this->chrome = true;
+    }
+if( $mobile_detect->isSafari() ){
+      $this->safari = true;
+    }
+if( $mobile_detect->isOpera() ){
+      $this->opera = true;
+    }
+if( $mobile_detect->isFirefox() ){
+      $this->firefox = true;
+    }
+// Добавляем:
+if( $mobile_detect->isYandexBrowser() ){
+    $this->yandex_bro = true;
+}
+
+if( $mobile_detect->isTelegramBot() ){
+    $this->telegram_bot = true;
+}]]></replacecode>
+			<enabled>1</enabled>
+			<dleversion>18</dleversion>
+			<versioncompare>greater</versioncompare>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[if (stripos ( $content, "android]" ) !== false) {
+      
+      if($this->android) {
+        
+        $content = str_ireplace( '[android]', "", $content );
+        $content = str_ireplace( '[/android]', "", $content );
+        $content = preg_replace( "#\[not-android\](.+?)\[/not-android\]#is", "", $content );
+        
+      } else {
+        
+        $content = str_ireplace( '[not-android]', "", $content );
+        $content = str_ireplace( '[/not-android]', "", $content );
+        $content = preg_replace( "#\[android\](.+?)\[/android\]#is", "", $content );
+        
+      }
+      
+    }]]></searchcode>
+			<replacecode><![CDATA[
+// Описываем новые теги браузеров
+if (stripos ( $content, "chrome]" ) !== false) {
+  
+  if($this->chrome) {
+    
+    $content = str_ireplace( '[chrome]', "", $content );
+    $content = str_ireplace( '[/chrome]', "", $content );
+    $content = preg_replace( "#\[not-chrome\](.+?)\[/not-chrome\]#is", "", $content );
+    
+  } else {
+    
+    $content = str_ireplace( '[not-chrome]', "", $content );
+    $content = str_ireplace( '[/not-chrome]', "", $content );
+    $content = preg_replace( "#\[chrome\](.+?)\[/chrome\]#is", "", $content );
+    
+  }
+  
+}
+
+if (stripos ( $content, "safari]" ) !== false) {
+  
+  if($this->safari) {
+    
+    $content = str_ireplace( '[safari]', "", $content );
+    $content = str_ireplace( '[/safari]', "", $content );
+    $content = preg_replace( "#\[not-safari\](.+?)\[/not-safari\]#is", "", $content );
+    
+  } else {
+    
+    $content = str_ireplace( '[not-safari]', "", $content );
+    $content = str_ireplace( '[/not-safari]', "", $content );
+    $content = preg_replace( "#\[safari\](.+?)\[/safari\]#is", "", $content );
+    
+  }
+  
+}
+// 2022-10-20 теги для opera и firefox
+if (stripos ( $content, "firefox]" ) !== false) {
+  
+  if($this->firefox) {
+    
+    $content = str_ireplace( '[firefox]', "", $content );
+    $content = str_ireplace( '[/firefox]', "", $content );
+    $content = preg_replace( "#\[not-firefox\](.+?)\[/not-firefox\]#is", "", $content );
+    
+  } else {
+    
+    $content = str_ireplace( '[not-firefox]', "", $content );
+    $content = str_ireplace( '[/not-firefox]', "", $content );
+    $content = preg_replace( "#\[firefox\](.+?)\[/firefox\]#is", "", $content );
+    
+  }
+  
+}
+
+if (stripos ( $content, "opera]" ) !== false) {
+  
+  if($this->opera) {
+    
+    $content = str_ireplace( '[opera]', "", $content );
+    $content = str_ireplace( '[/opera]', "", $content );
+    $content = preg_replace( "#\[not-opera\](.+?)\[/not-opera\]#is", "", $content );
+    
+  } else {
+    
+    $content = str_ireplace( '[not-opera]', "", $content );
+    $content = str_ireplace( '[/not-opera]', "", $content );
+    $content = preg_replace( "#\[opera\](.+?)\[/opera\]#is", "", $content );
+    
+  }
+  
+}
+
+
+// 2025-08-12 
+// [yandex-bro]...[/yandex-bro]
+if (stripos($content, "yandex-bro]") !== false) {
+    if ($this->yandex_bro) {
+        $content = str_ireplace('[yandex-bro]', '', $content);
+        $content = str_ireplace('[/yandex-bro]', '', $content);
+        $content = preg_replace("#\[not-yandex-bro\](.+?)\[/not-yandex-bro\]#is", "", $content);
+    } else {
+        $content = str_ireplace('[not-yandex-bro]', '', $content);
+        $content = str_ireplace('[/not-yandex-bro]', '', $content);
+        $content = preg_replace("#\[yandex-bro\](.+?)\[/yandex-bro\]#is", "", $content);
+    }
+}
+
+// [telegram-bot]...[/telegram-bot]
+if (stripos($content, "telegram-bot]") !== false) {
+    if ($this->telegram_bot) {
+        $content = str_ireplace('[telegram-bot]', '', $content);
+        $content = str_ireplace('[/telegram-bot]', '', $content);
+        $content = preg_replace("#\[not-telegram-bot\](.+?)\[/not-telegram-bot\]#is", "", $content);
+    } else {
+        $content = str_ireplace('[not-telegram-bot]', '', $content);
+        $content = str_ireplace('[/not-telegram-bot]', '', $content);
+        $content = preg_replace("#\[telegram-bot\](.+?)\[/telegram-bot\]#is", "", $content);
+    }
+}]]></replacecode>
+			<enabled>1</enabled>
+		</operation>
+	</file>
+	<file name="engine/classes/mobiledetect/MobileDetect.php">
+		<operation action="after">
+			<searchcode><![CDATA['HuaweiBrowser'   => 'HuaweiBrowser',]]></searchcode>
+			<replacecode><![CDATA[    // Custom browsers (added for DLE-browser-selection)
+    'YandexBrowser' => ['YaBrowser', 'Yowser'],
+    'TelegramBot'   => ['TelegramBot', 'Telegram.*Mobile'],]]></replacecode>
+			<enabled>1</enabled>
+			<dleversion>18</dleversion>
+			<versioncompare>greater</versioncompare>
+		</operation>
+		<operation action="after">
+			<searchcode><![CDATA[/**
+     * Get the properties array.
+     *
+     * @return array
+     */
+    public static function getProperties(): array
+    {
+        return static::$properties;
+    }]]></searchcode>
+			<replacecode><![CDATA[/**
+     * Check if the user is using Yandex Browser.
+     * @return bool
+     */
+    public function isYandexBrowser()
+    {
+        return $this->match('YaBrowser|Yowser', $this->userAgent);
+    }
+
+    /**
+     * Check if the user is using Telegram in-app browser.
+     * @return bool
+     */
+    public function isTelegramBot()
+    {
+        return $this->match('TelegramBot|Telegram.*Mobile', $this->userAgent) && $this->isMobile();
+    }]]></replacecode>
+			<enabled>1</enabled>
+			<dleversion>18</dleversion>
+			<versioncompare>greater</versioncompare>
+		</operation>
+	</file>
+</dleplugin>
